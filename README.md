@@ -1,4 +1,4 @@
-# Music-collabortion-site
+# Music-collaboration-site
 
 # Collaborative Music Production with Diverse DAWs
 
