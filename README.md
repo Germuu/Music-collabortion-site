@@ -12,7 +12,7 @@ In remote collaborations, it's not uncommon for producers to use different DAWs.
 
 ## Bridging the Gap
 
-One common workaround is to convert tracks and stems into universally recognized formats such as WAV or MP3. This method enables both remote and cross-collaboration, but it comes at a cost. File conversion and transfer can substantially slow down the workflow, disrupt creative momentum, and introduce potential quality issues.
+One common workaround is to convert tracks and stems into universally recognized formats such as WAV or MP3. This method enables both remote and cross-collaboration, but it comes at a cost. File transfer can substantially slow down the workflow, disrupt creative momentum, and introduce potential quality issues.
 
 ## The vision
 
@@ -24,10 +24,10 @@ This project aims to address these challenges and provide a seamless platform fo
 Tables to store the necessary information:
 
 Users: Store user information like username, email, password, group memberships, etc.
-Groups: Name, members,etc.
+Groups: Name, members, etc.
 Projects: Project name, description, bpm,  etc.
-Tracks: Information about audio tracks such as associated project, lenght, bpm, last modified,  
-Comments: Store comments on recent updates, associated with project or track.
+Tracks: Information about audio tracks such as associated project, length, bpm, last modified,  
+Comments: Store comments on recent updates, associated with the project or track.
 
 *User Authentication:
 User registration and login functionalities
