@@ -14,7 +14,7 @@ In remote collaborations, it's not uncommon for producers to use different DAWs.
 
 One common workaround is to convert tracks and stems into universally recognized formats such as WAV or MP3. This method enables both remote and cross-collaboration, but it comes at a cost. File conversion and transfer can substantially slow down the workflow, disrupt creative momentum, and introduce potential quality issues.
 
-## Our Vision
+## The vision
 
 This project aims to address these challenges and provide a seamless platform for collaborative music production.
 
