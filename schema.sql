@@ -27,4 +27,9 @@ CREATE TABLE users (
     password TEXT
 );
 
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    content VARCHAR(255)
+);
+
 
