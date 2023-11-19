@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .group-link {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #007bff;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .group-link a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .group-link a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Display flashed messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Display user's groups with clickable links to projects -->
+        <h1>Your Dashboard</h1>
+        <h2>Your Groups:</h2>
+        <ul>
+            {% for group in user_groups %}
+                <li class="group-link">
+                    <a href="{{ url_for('group_projects', group_id=group.id) }}">{{ group.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Add other dashboard content as needed -->
+    </div>
+</body>
+</html>
+
+
+
+

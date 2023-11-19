@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your App</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2f5330;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Add styles for flashed messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+
+        .alert-error {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+
+        /* Add styles for profile page */
+        .profile-container {
+            position: relative;
+        }
+
+        .profile-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .create-group-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% if session.username %}
+        <div class="profile-container">
+            <div class="profile-info">
+                <p>You are logged in as {{ session.username }}</p>
+                <a href="/logout">Log out</a>
+            </div>
+            <div>
+                <h1>Welcome to Your Profile</h1>
+                <!-- Add this block to display flashed messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Add your profile content here -->
+                <!-- For example, a button to create a group -->
+                <button class="create-group-btn" onclick="window.location.href='/create_group'">Create a Group</button>
+
+                <a href="/dashboard">Go to Dashboard</a>
+            </div>
+        </div>
+    {% else %}
+        <h1>Login to Your Account</h1>
+        <form method="POST" action="/login">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="submit" value="Login">
+        </form>
+        <a href="/registration">Register</a>
+    {% endif %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
