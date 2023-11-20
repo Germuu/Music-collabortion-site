@@ -9,6 +9,7 @@ The site has main functionalities such as login, register, group creation, and p
 The project page itself is displayed when clicked, but the file-sharing functionality has not yet been implemented.
 
 #HOW TO TEST
+
 0. Download templates, requirements, schema.sql and app.py
 1. Create the SQL schema using the schema.sql file.
 2. activate the virtual environment and install the requirements.
