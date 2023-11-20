@@ -9,7 +9,7 @@ The site has main functionalities such as login, register, group creation and pr
 The project page itself is displayed when clicked, but the file sharing functionalty has not yet been implememted.
 
 #HOW TO TEST
-
+0. Download templates, requirements, schema.sql and app.py
 1. Create the sql schema using the schema.sql file.
 2. activate the vrtual environment and install the requirements.
 3. flask run
