@@ -1,6 +1,6 @@
 # Music-collaboration-site
 
-![Master Branch: All Code Here](https://img.shields.io/badge/Branch-Master-green)
+**All code in the master branch**
 
 # Collaborative Music Production with Diverse DAWs
 
