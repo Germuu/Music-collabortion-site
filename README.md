@@ -1,6 +1,6 @@
 # Music-collaboration-site
 
-[![Master Branch](https://img.shields.io/badge/Branch-Master-green)](https://github.com/Germuu/Music-collaboration-site/tree/master)
+![Master Branch: All Code Here](https://img.shields.io/badge/Branch-Master-green)
 
 # Collaborative Music Production with Diverse DAWs
 
