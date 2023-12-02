@@ -1,5 +1,7 @@
 # Music-collaboration-site
 
+[![Master Branch](https://img.shields.io/badge/Branch-Master-green)](https://github.com/Germuu/Music-collaboration-site/tree/master)
+
 # Collaborative Music Production with Diverse DAWs
 
 Music production is a world of endless creativity and possibilities, and at the heart of this journey are Digital Audio Workstations (DAWs). However, the true magic of music emerges when artists come together to collaborate on projects. Collaborations expand horizons and allow for the creation of truly unique musical experiences.
@@ -18,14 +20,14 @@ One common workaround is to convert tracks and stems into universally recognized
 
 This project aims to address these challenges and provide a seamless platform for collaborative music production.
 
-#Implementation
+# Implementation
 
 *Database Design (PostgreSQL):
 Tables to store the necessary information:
 
 Users: Store user information like username, email, password, group memberships, etc.
 Groups: Name, members, etc.
-Projects: Project name, description, bpm,  etc.
+Projects: Project name, description, bpm, etc.
 Tracks: Information about audio tracks such as associated project, length, bpm, last modified,  
 Comments: Store comments on recent updates, associated with the project or track.
 
@@ -33,15 +35,7 @@ Comments: Store comments on recent updates, associated with the project or track
 User registration and login functionalities
 
 *Creating and Managing Groups:
-Users should be able to create or join project groups, which could be associated with a particular project. Each group can have multiple members and vice versa
+Users should be able to create or join project groups, which could be associated with a particular project. Each group can have multiple users and vice versa.
 
-*Uploading and Downloading WAV Files:
-Interface for users to upload WAV files and associate them with specific projects or tracks. 
-
-*Comments and Notifications:
-Allow users to comment on recent updates, whether it's a new track or a project
-
-*User Permissions:
-Permission system to control who can access, edit, or delete specific projects, tracks, or comments.
 
 
