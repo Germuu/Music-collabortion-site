@@ -14,6 +14,7 @@ The project page itself is displayed when clicked, but the file-sharing function
 - Edited SQL schema
 - Added template for displaying most recent file uploads
 - While uploaded files are visible on the site, they are not yet downloadable
+- secret key and URL are still hard coded
 
 # HOW TO TEST
 
