@@ -82,11 +82,21 @@ def create_group():
 
 
 
+
 @app.route("/createg", methods=["GET", "POST"])
 def createg():
     if request.method == "POST":
         group_name = request.form["group_name"]
         collaborators = request.form.getlist("collaborators")  # Use getlist to get multiple values
+
+        # Check if the group with the given name already exists
+        existing_group = db.session.execute(
+        text("SELECT * FROM groups WHERE name = :group_name").params(group_name=group_name)
+        ).fetchone()
+        
+        if existing_group:
+            flash("Group with the same name already exists. Choose a different name.")
+            return redirect("/createg")  # Redirect to the createg page to try again
 
         # CREATE GROUP
         sql = "INSERT INTO groups (name) VALUES (:group_name) RETURNING id"
@@ -108,6 +118,7 @@ def createg():
         return redirect("/group")
     else:
         return render_template("create_group.html")
+
 
 @app.route("/group", methods=["GET", "POST"])
 def create_project():
