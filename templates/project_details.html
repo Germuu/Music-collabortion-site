@@ -3,152 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details</title>
-    <!-- Add your CSS styles here -->
+    <title>Uploadable Tracks</title>
     <style>
-        /* Add your styles here */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
             margin: 0;
             padding: 0;
+            color: #ffffff;
         }
-
-        h1 {
-            color: #343a40;
-            text-align: center;
-            margin-top: 30px;
-        }
-
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #333333;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h2 {
-            color: #007bff;
+        .file-field {
+            margin-bottom: 15px;
         }
-
-        h3 {
-            color: #28a745;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        input[type="file"] {
-            margin-bottom: 10px;
-        }
-
         label {
             display: block;
             margin-bottom: 5px;
-            color: #28a745;
+            font-weight: bold;
         }
-
+        input[type="file"] {
+            display: block;
+            margin-top: 5px;
+        }
         textarea {
             width: 100%;
-            padding: 5px;
+            resize: vertical;
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #555555;
+            padding: 8px;
             margin-bottom: 10px;
         }
-
         input[type="submit"] {
-            background-color: #28a745;
-            color: #fff;
-            padding: 8px 15px;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
-
         input[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #45a049;
         }
 
-        .file-section {
-            margin-top: 20px;
+        /* Symbol styles */
+        .symbol {
+            font-size: 24px;
+            margin-right: 10px;
         }
 
-        .file-field {
-            margin-bottom: 20px;
+        .symbol-drums::before {
+            content: "🥁";
+        }
+
+        .symbol-bass::before {
+            content: "🎸";
+        }
+
+        .symbol-effects::before {
+            content: "🔊";
+        }
+
+        .symbol-custom::before {
+            content: "🎵";
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Display project name -->
         <h1>Project Details</h1>
         <h2>{{ project.name }}</h2>
 
-        <!-- File Upload Form -->
         <form action="{{ url_for('upload_file', project_id=project.id) }}" method="post" enctype="multipart/form-data">
-            <!-- File Fields -->
-            <div class="file-section">
-                <div class="file-field">
-                    <label for="drums">Drums:</label>
-                    <input type="file" name="drums" id="drums">
-                </div>
 
-                <div class="file-field">
-                    <label for="bass">Bass:</label>
-                    <input type="file" name="bass" id="bass">
-                </div>
-
-                <div class="file-field">
-                    <label for="effects">Effects:</label>
-                    <input type="file" name="effects" id="effects">
-                </div>
-
-                <div class="file-field">
-                    <label for="custom">Custom:</label>
-                    <input type="file" name="custom" id="custom">
-                </div>
+            {% for file_type in ['drums', 'bass', 'effects', 'custom'] %}
+            <div class="file-field">
+                <label for="{{ file_type }}">
+                    <span class="symbol symbol-{{ file_type }}"></span>
+                    {{ file_type|capitalize }}:
+                </label>
+                <input type="file" name="{{ file_type }}" id="{{ file_type }}">
+                <input type="hidden" name="file_type" value="{{ file_type }}">
             </div>
+            {% endfor %}
 
-            <!-- Comment Field -->
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" rows="4" cols="50"></textarea>
 
             <br>
             <input type="submit" value="Upload">
         </form>
-
-        <!-- Display uploaded files -->
-        <h3>Uploaded Files:</h3>
-        <ul>
-            {% for file in files %}
-                <li>
-                    <a href="{{ url_for('download_file', file_id=file.id) }}">{{ file.file_path }}</a>
-                </li>
-            {% endfor %}
-        </ul>
     </div>
 </body>
 </html>
+
+
+
+
+
 
 
 

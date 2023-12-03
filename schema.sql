@@ -1,5 +1,5 @@
 
-CREATE TABLE users (
+CREATE TABLE users (                                                        CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT, password TEXT);
     id SERIAL PRIMARY KEY,
     username TEXT,
     password VARCHAR(255)
@@ -26,13 +26,13 @@ CREATE TABLE messages (
 CREATE TABLE project_files (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects(id),
-    file_path VARCHAR(255)
+    audio BYTEA,
+    comment TEXT
+    
 );
-
-
 
 CREATE TABLE group_members (
     id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups(id),
     user_id INTEGER REFERENCES users(id)
-);
+);  

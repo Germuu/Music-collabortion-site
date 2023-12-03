@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import redirect, render_template, request, session
-from os import getenv
+import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
 from dotenv import load_dotenv
@@ -167,7 +167,7 @@ def group_projects(group_id):
     return render_template("group_projects.html", projects=projects)
 
 
-@app.route("/project_details/<int:project_id>")
+@app.route("/project_details/<int:project_id>", methods=["GET", "POST"])
 def project_details(project_id):
     # Fetch project details and files from the database
     project_sql = text("SELECT name,id FROM projects WHERE id = :project_id")
@@ -178,33 +178,93 @@ def project_details(project_id):
     files_result = db.session.execute(files_sql, {"project_id": project_id})
     files = files_result.fetchall()
 
+    if request.method == "POST":
+        # Handle form submission for file uploads
+        if "file" not in request.files:
+            flash("No file part", "error")
+        else:
+            file = request.files["file"]
+
+            if file.filename == "":
+                flash("No selected file", "error")
+            else:
+                # Process the file (your existing code for file handling...)
+                flash("File uploaded successfully!", "success")
+    
     return render_template("project_details.html", project=project, files=files)
 
 
-@app.route("/upload_file/<int:project_id>", methods=["POST"])
+
+
+@app.route("/upload_file/<int:project_id>", methods=["GET", "POST"])
 def upload_file(project_id):
-    if "file" not in request.files:
-        flash("No file part", "error")
-        return redirect(request.url)
+    if request.method == "POST":
+        if "file" not in request.files:
+            flash("No file part", "error")
+            return redirect(request.url)
 
-    file = request.files["file"]
+        file = request.files["file"]
 
-    if file.filename == "":
-        flash("No selected file", "error")
-        return redirect(request.url)
+        if file.filename == "":
+            flash("No selected file", "error")
+            return redirect(request.url)
 
-    # Save file to the server
-    file_path = os.path.join("uploads", file.filename)
-    file.save(file_path)
+        # Save file to the server
+        uploads_dir = os.path.join(app.root_path, 'uploads', str(project_id))
+        os.makedirs(uploads_dir, exist_ok=True)
 
-    # Save file information to the database
-    comment = request.form.get("comment")
-    sql = text("INSERT INTO project_files (project_id, file_path, comment) VALUES (:project_id, :file_path, :comment)")
-    db.session.execute(sql, {"project_id": project_id, "file_path": file_path, "comment": comment})
-    db.session.commit()
+        file_path = os.path.join(uploads_dir, file.filename)
+        file.save(file_path)
 
-    flash("File successfully uploaded", "success")
-    return redirect(request.url)
+        # Save file information to the database
+        comment = request.form.get("comment")
+
+        with app.app_context():
+            db.session.execute(
+                text("INSERT INTO project_files (project_id, file_path, comment) VALUES (:project_id, :file_path, :comment)"),
+                {"project_id": project_id, "file_path": file_path, "comment": comment}
+            )
+            db.session.commit()
+
+        flash("File uploaded successfully!", "success")
+
+        # Redirect to the 'uploads' route for the specific project
+        return redirect(url_for('uploads', project_id=project_id))
+
+    # Fetch project details for rendering the template
+    with app.app_context():
+        project = db.session.execute(
+            text("SELECT name, id FROM projects WHERE id = :project_id"),
+            {"project_id": project_id}
+        ).fetchone()
+
+    # Render the template with the project details
+    return render_template("uploads.html", project=project, project_id=project_id)
+
+
+
+
+@app.route("/uploads/<int:project_id>")
+def uploads(project_id):
+    # Fetch projects and latest uploaded files for the specified project from the database
+    project_sql = text("SELECT name, id FROM projects WHERE id = :project_id")
+    project_result = db.session.execute(project_sql, {"project_id": project_id})
+    project = project_result.fetchone()
+
+    latest_file_sql = text(
+        "SELECT id, file_path FROM project_files WHERE project_id = :project_id ORDER BY id DESC LIMIT 1"
+    )
+    latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id})
+    latest_uploads = latest_file_result.fetchone()
+
+    # Render the template with the project details and latest_uploads
+    return render_template("uploads.html", project=project, latest_uploads=latest_uploads)
+
+
+
+
+
+
 
 @app.route("/download_file/<int:file_id>")
 def download_file(file_id):

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        /* Add your styles here */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        h3 {
+            color: #28a745;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #28a745;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .file-section {
+            margin-top: 20px;
+        }
+
+        .file-field {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .download-link {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Display project name -->
+        <h1>Project Details</h1>
+        <h2>{{ project.name }}</h2>
+
+        <!-- File Upload Form -->
+        <form action="{{ url_for('upload_file', project_id=project.id) }}" methods="post" enctype="multipart/form-data">
+
+            <!-- Drums File Field -->
+            <div class="file-field">
+                <label for="drums">Drums:</label>
+                <input type="file" name="drums" id="drums">
+            </div>
+
+            <!-- Bass File Field -->
+            <div class="file-field">
+                <label for="bass">Bass:</label>
+                <input type="file" name="bass" id="bass">
+            </div>
+
+            <!-- Effects File Field -->
+            <div class="file-field">
+                <label for="effects">Effects:</label>
+                <input type="file" name="effects" id="effects">
+            </div>
+
+            <!-- Custom File Field -->
+            <div class="file-field">
+                <label for="custom">Custom:</label>
+                <input type="file" name="custom" id="custom">
+            </div>
+
+            <!-- Comment Field -->
+            <label for="comment">Comment:</label>
+            <textarea name="comment" id="comment" rows="4" cols="50"></textarea>
+
+            <br>
+            <input type="submit" value="Upload">
+        </form>
+
+        <!-- Latest Uploads with Download Links -->
+        <div class="file-section">
+            <h2>Latest Uploads</h2>
+
+            <!-- Drums Download Link -->
+            <div class="file-field">
+                <label for="latest_drums">Drums:</label>
+                {% if latest_uploads %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='drums') }}" class="download-link">Download</a>
+                {% else %}
+                    <p>No upload available</p>
+                {% endif %}
+            </div>
+
+            <!-- Bass Download Link -->
+            <div class="file-field">
+                <label for="latest_bass">Bass:</label>
+                {% if latest_uploads %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='bass') }}" class="download-link">Download</a>
+                {% else %}
+                    <p>No upload available</p>
+                {% endif %}
+            </div>
+
+            <!-- Effects Download Link -->
+            <div class="file-field">
+                <label for="latest_effects">Effects:</label>
+                {% if latest_uploads %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='effects') }}" class="download-link">Download</a>
+                {% else %}
+                    <p>No upload available</p>
+                {% endif %}
+            </div>
+
+            <!-- Custom Download Link -->
+            <div class="file-field">
+                <label for="latest_custom">Custom:</label>
+                {% if latest_uploads %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='custom') }}" class="download-link">Download</a>
+                {% else %}
+                    <p>No upload available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Other project details if needed -->
+    </div>
+</body>
+</html>
+
+
