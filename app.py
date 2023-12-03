@@ -133,7 +133,7 @@ def dashboard():
         user_id = session["user_id"]
 
         # Fetch user's groups with both id and name from the database
-        sql = text("SELECT groups.id, groups.name FROM groups "
+        sql = text("SELECT DISTINCT groups.id, groups.name FROM groups "
                    "JOIN group_members ON groups.id = group_members.group_id "
                    "WHERE group_members.user_id = :user_id")
         result = db.session.execute(sql, {"user_id": user_id})
