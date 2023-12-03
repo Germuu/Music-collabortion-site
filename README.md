@@ -13,7 +13,7 @@ The project page itself is displayed when clicked, but the file-sharing function
 - Debugged group display issues
 - Edited SQL schema
 - Added template for displaying most recent file uploads
-- Tried to implement file uploading and downloading with no success
+- While uploaded files are visible on the site, they are not yet downloadable
 
 # HOW TO TEST
 
