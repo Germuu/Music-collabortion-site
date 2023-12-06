@@ -27,8 +27,8 @@ CREATE TABLE project_files (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects(id),
     audio BYTEA,
-    comment TEXT
-    
+    comment TEXT,
+    file_type VARCHAR(255)  -- Adding the new column for file type
 );
 
 CREATE TABLE group_members (
