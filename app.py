@@ -1,5 +1,6 @@
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, url_for
+from flask import flash
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -37,9 +38,7 @@ def register():
         return render_template("registration.html")
 
 
-from flask import abort, flash
 
-from flask import abort, flash
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -167,98 +166,64 @@ def group_projects(group_id):
     return render_template("group_projects.html", projects=projects)
 
 
-@app.route("/project_details/<int:project_id>", methods=["GET", "POST"])
+
+
+@app.route("/project_details/<int:project_id>")
 def project_details(project_id):
     # Fetch project details and files from the database
-    project_sql = text("SELECT name,id FROM projects WHERE id = :project_id")
-    project_result = db.session.execute(project_sql, {"project_id": project_id})
-    project = project_result.fetchone()
-
-    files_sql = text("SELECT id, file_path FROM project_files WHERE project_id = :project_id")
-    files_result = db.session.execute(files_sql, {"project_id": project_id})
-    files = files_result.fetchall()
-
-    if request.method == "POST":
-        # Handle form submission for file uploads
-        if "file" not in request.files:
-            flash("No file part", "error")
-        else:
-            file = request.files["file"]
-
-            if file.filename == "":
-                flash("No selected file", "error")
-            else:
-                # Process the file (your existing code for file handling...)
-                flash("File uploaded successfully!", "success")
-    
-    return render_template("project_details.html", project=project, files=files)
-
-
-
-
-@app.route("/upload_file/<int:project_id>", methods=["GET", "POST"])
-def upload_file(project_id):
-    if request.method == "POST":
-        if "file" not in request.files:
-            flash("No file part", "error")
-            return redirect(request.url)
-
-        file = request.files["file"]
-
-        if file.filename == "":
-            flash("No selected file", "error")
-            return redirect(request.url)
-
-        # Save file to the server
-        uploads_dir = os.path.join(app.root_path, 'uploads', str(project_id))
-        os.makedirs(uploads_dir, exist_ok=True)
-
-        file_path = os.path.join(uploads_dir, file.filename)
-        file.save(file_path)
-
-        # Save file information to the database
-        comment = request.form.get("comment")
-
-        with app.app_context():
-            db.session.execute(
-                text("INSERT INTO project_files (project_id, file_path, comment) VALUES (:project_id, :file_path, :comment)"),
-                {"project_id": project_id, "file_path": file_path, "comment": comment}
-            )
-            db.session.commit()
-
-        flash("File uploaded successfully!", "success")
-
-        # Redirect to the 'uploads' route for the specific project
-        return redirect(url_for('uploads', project_id=project_id))
-
-    # Fetch project details for rendering the template
-    with app.app_context():
-        project = db.session.execute(
-            text("SELECT name, id FROM projects WHERE id = :project_id"),
-            {"project_id": project_id}
-        ).fetchone()
-
-    # Render the template with the project details
-    return render_template("uploads.html", project=project, project_id=project_id)
-
-
-
-
-@app.route("/uploads/<int:project_id>")
-def uploads(project_id):
-    # Fetch projects and latest uploaded files for the specified project from the database
     project_sql = text("SELECT name, id FROM projects WHERE id = :project_id")
     project_result = db.session.execute(project_sql, {"project_id": project_id})
     project = project_result.fetchone()
+    return render_template("project_details.html", project=project)
 
-    latest_file_sql = text(
-        "SELECT id, file_path FROM project_files WHERE project_id = :project_id ORDER BY id DESC LIMIT 1"
-    )
-    latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id})
-    latest_uploads = latest_file_result.fetchone()
 
-    # Render the template with the project details and latest_uploads
-    return render_template("uploads.html", project=project, latest_uploads=latest_uploads)
+
+@app.route('/upload_file', methods=['POST'])
+def upload_file():
+    # Process the form data, including extracting the project ID
+    project_id = request.form.get('project_id')
+
+    # Your file handling logic here...
+
+    # Redirect to the 'uploads' route with the given project ID
+    return redirect(url_for('uploads', project_id=project_id))
+
+
+
+
+
+
+
+
+
+@app.route("/uploads/<int:project_id>", methods=["GET", "POST"])
+def uploads(project_id):
+    if request.method == "GET":
+        # Fetch projects and latest uploaded files for the specified project from the database
+        project_sql = text("SELECT name, id FROM projects WHERE id = :project_id")
+        project_result = db.session.execute(project_sql, {"project_id": project_id})
+        project = project_result.fetchone()
+
+        latest_file_sql = text(
+            "SELECT id, file_path FROM project_files WHERE project_id = :project_id ORDER BY id DESC LIMIT 1"
+        )
+        latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id})
+        latest_uploads = latest_file_result.fetchone()
+
+        # Render the template with the project details and latest_uploads
+        return render_template("uploads.html", project=project, latest_uploads=latest_uploads)
+
+    elif request.method == "POST":
+        # Handle POST request logic (if any) for the /uploads/<project_id> route
+        # This might include processing form data, handling file uploads, etc.
+        # ...
+
+        # Redirect or render a response after handling the POST request
+        return redirect(url_for('uploads', project_id=project_id))
+
+    # Handle other request methods if needed
+    else:
+        return abort(405)  # Method Not Allowed
 
 
 

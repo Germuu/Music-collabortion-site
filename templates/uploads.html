@@ -109,43 +109,10 @@
 <body>
     <div class="container">
         <!-- Display project name -->
-        <h1>Project Details</h1>
+        <h1>Current uploads</h1>
         <h2>{{ project.name }}</h2>
 
-        <!-- File Upload Form -->
-        <form action="{{ url_for('upload_file', project_id=project.id) }}" methods="post" enctype="multipart/form-data">
 
-            <!-- Drums File Field -->
-            <div class="file-field">
-                <label for="drums">Drums:</label>
-                <input type="file" name="drums" id="drums">
-            </div>
-
-            <!-- Bass File Field -->
-            <div class="file-field">
-                <label for="bass">Bass:</label>
-                <input type="file" name="bass" id="bass">
-            </div>
-
-            <!-- Effects File Field -->
-            <div class="file-field">
-                <label for="effects">Effects:</label>
-                <input type="file" name="effects" id="effects">
-            </div>
-
-            <!-- Custom File Field -->
-            <div class="file-field">
-                <label for="custom">Custom:</label>
-                <input type="file" name="custom" id="custom">
-            </div>
-
-            <!-- Comment Field -->
-            <label for="comment">Comment:</label>
-            <textarea name="comment" id="comment" rows="4" cols="50"></textarea>
-
-            <br>
-            <input type="submit" value="Upload">
-        </form>
 
         <!-- Latest Uploads with Download Links -->
         <div class="file-section">
