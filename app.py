@@ -199,9 +199,9 @@ def upload_file():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
             uploaded_file.save(file_path)
 
-            # Save information to the database
-            file_sql = text("INSERT INTO project_files (project_id, file_path, comment) VALUES (:project_id, :file_path, :comment)")
-            db.session.execute(file_sql, {"project_id": project_id, "file_path": file_path, "comment": request.form.get('comment')})
+            # Save information to the database, including the file type
+            file_sql = text("INSERT INTO project_files (project_id, file_path, comment, file_type) VALUES (:project_id, :file_path, :comment, :file_type)")
+            db.session.execute(file_sql, {"project_id": project_id, "file_path": file_path, "comment": request.form.get('comment'), "file_type": file_type})
             db.session.commit()
 
     # Redirect to the 'uploads' route with the given project ID
@@ -210,31 +210,32 @@ def upload_file():
 @app.route("/uploads/<int:project_id>", methods=["GET", "POST"])
 def uploads(project_id):
     if request.method == "GET":
-        # Fetch projects and latest uploaded files for the specified project from the database
+        # Fetch project details
         project_sql = text("SELECT name, id FROM projects WHERE id = :project_id")
         project_result = db.session.execute(project_sql, {"project_id": project_id})
         project = project_result.fetchone()
 
-        latest_file_sql = text(
-            "SELECT id, file_path FROM project_files WHERE project_id = :project_id ORDER BY id DESC LIMIT 1"
-        )
-        latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id})
-        latest_file = latest_file_result.fetchone()
+        # Fetch latest file for each type
+        file_types = ['drums', 'bass', 'effects', 'custom']
+        latest_files = {}
 
-        # Render the template with the project details and latest_file
-        return render_template("uploads.html", project=project, latest_file=latest_file)
+        for file_type in file_types:
+            latest_file_sql = text(
+                "SELECT id, file_path FROM project_files WHERE project_id = :project_id AND file_type = :file_type ORDER BY id DESC LIMIT 1"
+            )
+            latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id, "file_type": file_type})
+            latest_file = latest_file_result.fetchone()
+            latest_files[file_type] = latest_file
+
+        # Render the template with the project details and latest_files
+        return render_template("uploads.html", project=project, latest_files=latest_files)
 
     elif request.method == "POST":
-        # Handle POST request logic (if any) for the /uploads/<project_id> route
-        # This might include processing form data, handling file uploads, etc.
-        # ...
-
-        # Redirect or render a response after handling the POST request
+        # Handle POST request if needed
         return redirect(url_for('uploads', project_id=project_id))
 
-    # Handle other request methods if needed
     else:
-        return abort(405)  # Method Not Allowed
+        return abort(405)  
 
 @app.route("/download_file/<int:file_id>")
 def download_file(file_id):

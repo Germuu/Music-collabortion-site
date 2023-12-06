@@ -12,11 +12,10 @@
             background-color: #272829;
             margin: 0;
             padding: 0;
-            color: #ffffff;
         }
 
         h1 {
-            color: #43b581;
+            color: #343a40;
             text-align: center;
             margin-top: 30px;
         }
@@ -25,18 +24,18 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #2c2c2c;
+            background-color: #1a1717;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin-top: 20px;
         }
 
         h2 {
-            color: #43b581;
+            color: #007bff;
         }
 
         h3 {
-            color: #43b581;
+            color: #28a745;
         }
 
         ul {
@@ -50,7 +49,7 @@
 
         a {
             text-decoration: none;
-            color: #3498db;
+            color: #007bff;
         }
 
         a:hover {
@@ -68,21 +67,17 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #43b581;
+            color: #28a745;
         }
 
         textarea {
             width: 100%;
             padding: 5px;
             margin-bottom: 10px;
-            background-color: #333333;
-            color: #ffffff;
-            border: 1px solid #555555;
-            border-radius: 4px;
         }
 
         input[type="submit"] {
-            background-color: #43b581;
+            background-color: #28a745;
             color: #fff;
             padding: 8px 15px;
             border: none;
@@ -91,7 +86,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #3d9e64;
+            background-color: #218838;
         }
 
         .file-section {
@@ -100,20 +95,14 @@
 
         .file-field {
             margin-bottom: 20px;
-            border: 1px solid #555555;
+            border: 1px solid #ccc;
             padding: 10px;
             border-radius: 8px;
-            background-color: #333333;
         }
 
         .download-link {
             display: block;
             margin-top: 10px;
-            color: #3498db;
-        }
-
-        .download-link:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -130,8 +119,8 @@
             <!-- Drums Download Link -->
             <div class="file-field">
                 <label for="latest_drums">Drums:</label>
-                {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
+                {% if latest_files['drums'] %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='drums', file_id=latest_files['drums'].id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -140,8 +129,8 @@
             <!-- Bass Download Link -->
             <div class="file-field">
                 <label for="latest_bass">Bass:</label>
-                {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
+                {% if latest_files['bass'] %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='bass', file_id=latest_files['bass'].id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -150,8 +139,8 @@
             <!-- Effects Download Link -->
             <div class="file-field">
                 <label for="latest_effects">Effects:</label>
-                {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
+                {% if latest_files['effects'] %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='effects', file_id=latest_files['effects'].id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -160,19 +149,16 @@
             <!-- Custom Download Link -->
             <div class="file-field">
                 <label for="latest_custom">Custom:</label>
-                {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
+                {% if latest_files['custom'] %}
+                    <a href="{{ url_for('download_file', project_id=project.id, file_type='custom', file_id=latest_files['custom'].id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
             </div>
         </div>
-
-        <!-- Other project details if needed -->
     </div>
 </body>
 </html>
-
 
 
 
