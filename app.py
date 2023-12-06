@@ -221,7 +221,7 @@ def uploads(project_id):
 
         for file_type in file_types:
             latest_file_sql = text(
-                "SELECT id, file_path FROM project_files WHERE project_id = :project_id AND file_type = :file_type ORDER BY id DESC LIMIT 1"
+                "SELECT id, file_path, comment FROM project_files WHERE project_id = :project_id AND file_type = :file_type ORDER BY id DESC LIMIT 1"
             )
             latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id, "file_type": file_type})
             latest_file = latest_file_result.fetchone()
