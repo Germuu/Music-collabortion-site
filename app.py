@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import redirect, render_template, request, session, url_for
-from flask import flash
+from flask import flash,send_file
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -178,23 +178,39 @@ def project_details(project_id):
 
 
 
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ensure the 'uploads' directory exists
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
     # Process the form data, including extracting the project ID
     project_id = request.form.get('project_id')
 
-    # Your file handling logic here...
+    # Loop through the file types and handle each file
+    for file_type in ['drums', 'bass', 'effects', 'custom']:
+        uploaded_file = request.files[file_type]
+
+        if uploaded_file:
+            # Save the file to the designated directory
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
+
+            # Ensure the 'uploads' directory exists
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
+
+            uploaded_file.save(file_path)
+
+            # Save information to the database
+            file_sql = text("INSERT INTO project_files (project_id, file_path, file_type, comment) VALUES (:project_id, :file_path, :file_type, :comment)")
+            db.session.execute(file_sql, {"project_id": project_id, "file_path": file_path, "file_type": file_type, "comment": request.form.get('comment')})
+            db.session.commit()
 
     # Redirect to the 'uploads' route with the given project ID
     return redirect(url_for('uploads', project_id=project_id))
-
-
-
-
-
-
-
-
 
 @app.route("/uploads/<int:project_id>", methods=["GET", "POST"])
 def uploads(project_id):
@@ -224,12 +240,6 @@ def uploads(project_id):
     # Handle other request methods if needed
     else:
         return abort(405)  # Method Not Allowed
-
-
-
-
-
-
 
 @app.route("/download_file/<int:file_id>")
 def download_file(file_id):
