@@ -9,7 +9,7 @@
         /* Add your styles here */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #272829;
             margin: 0;
             padding: 0;
         }
@@ -24,7 +24,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1a1717;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin-top: 20px;
@@ -112,8 +112,6 @@
         <h1>Current uploads</h1>
         <h2>{{ project.name }}</h2>
 
-
-
         <!-- Latest Uploads with Download Links -->
         <div class="file-section">
             <h2>Latest Uploads</h2>
@@ -122,7 +120,7 @@
             <div class="file-field">
                 <label for="latest_drums">Drums:</label>
                 {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='drums') }}" class="download-link">Download</a>
+                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -132,7 +130,7 @@
             <div class="file-field">
                 <label for="latest_bass">Bass:</label>
                 {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='bass') }}" class="download-link">Download</a>
+                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -142,7 +140,7 @@
             <div class="file-field">
                 <label for="latest_effects">Effects:</label>
                 {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='effects') }}" class="download-link">Download</a>
+                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -152,7 +150,7 @@
             <div class="file-field">
                 <label for="latest_custom">Custom:</label>
                 {% if latest_uploads %}
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='custom') }}" class="download-link">Download</a>
+                    <a href="{{ url_for('download_file', file_id=latest_uploads.id) }}" class="download-link">Download</a>
                 {% else %}
                     <p>No upload available</p>
                 {% endif %}
@@ -163,5 +161,6 @@
     </div>
 </body>
 </html>
+
 
 

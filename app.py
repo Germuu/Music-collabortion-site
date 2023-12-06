@@ -177,7 +177,6 @@ def project_details(project_id):
     return render_template("project_details.html", project=project)
 
 
-
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -197,16 +196,11 @@ def upload_file():
         if uploaded_file:
             # Save the file to the designated directory
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
-
-            # Ensure the 'uploads' directory exists
-            if not os.path.exists(app.config['UPLOAD_FOLDER']):
-                os.makedirs(app.config['UPLOAD_FOLDER'])
-
             uploaded_file.save(file_path)
 
             # Save information to the database
-            file_sql = text("INSERT INTO project_files (project_id, file_path, file_type, comment) VALUES (:project_id, :file_path, :file_type, :comment)")
-            db.session.execute(file_sql, {"project_id": project_id, "file_path": file_path, "file_type": file_type, "comment": request.form.get('comment')})
+            file_sql = text("INSERT INTO project_files (project_id, file_path, comment) VALUES (:project_id, :file_path, :comment)")
+            db.session.execute(file_sql, {"project_id": project_id, "file_path": file_path, "comment": request.form.get('comment')})
             db.session.commit()
 
     # Redirect to the 'uploads' route with the given project ID
@@ -224,10 +218,10 @@ def uploads(project_id):
             "SELECT id, file_path FROM project_files WHERE project_id = :project_id ORDER BY id DESC LIMIT 1"
         )
         latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id})
-        latest_uploads = latest_file_result.fetchone()
+        latest_file = latest_file_result.fetchone()
 
-        # Render the template with the project details and latest_uploads
-        return render_template("uploads.html", project=project, latest_uploads=latest_uploads)
+        # Render the template with the project details and latest_file
+        return render_template("uploads.html", project=project, latest_file=latest_file)
 
     elif request.method == "POST":
         # Handle POST request logic (if any) for the /uploads/<project_id> route
@@ -249,6 +243,8 @@ def download_file(file_id):
     file_path = file_result.scalar()
 
     return send_file(file_path, as_attachment=True)
+
+
 
 
 
