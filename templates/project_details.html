@@ -42,7 +42,7 @@
             margin-bottom: 10px;
         }
         input[type="submit"] {
-            background-color: #4caf50;
+            background-color: #629c65;
             color: white;
             padding: 10px;
             border: none;
@@ -50,7 +50,7 @@
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #62c567;
         }
 
         /* Symbol styles */
@@ -74,6 +74,24 @@
         .symbol-custom::before {
             content: "🎵";
         }
+
+        /* View uploads button styles */
+        .view-uploads-button {
+            display: block;
+            margin-top: -450px; /* Adjust this value to move the button upward */
+            background-color: #629c65;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right; /* Move the button to the right */
+        }
+
+        .view-uploads-button:hover {
+            background-color: #b9294d;
+        }
     </style>
 </head>
 <body>
@@ -82,7 +100,6 @@
         <h2>{{ project.name }}</h2>
 
         <form action="/upload_file" method="POST" enctype="multipart/form-data">
-
             {% for file_type in ['drums', 'bass', 'effects', 'custom'] %}
             <div class="file-field">
                 <label for="{{ file_type }}">
@@ -92,7 +109,6 @@
                 <input type="file" name="{{ file_type }}" id="{{ file_type }}">
                 <input type="hidden" name="file_types[]" value="{{ file_type }}">
                 <input type="hidden" name="project_id" value="{{ project.id }}">
-            
             </div>
             {% endfor %}
         
@@ -102,10 +118,15 @@
             <br>
             <input type="submit" value="Upload">
         </form>
-        
+
+        <!-- View uploads button -->
+        <a href="{{ url_for('uploads', project_id=project.id) }}" class="view-uploads-button">View Latest Uploads</a>
     </div>
 </body>
 </html>
+
+
+
 
 
 

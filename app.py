@@ -11,6 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
 app.secret_key = "34d4713633d06b18cd607d75ed67de9d"
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://"
+app.config['STATIC_FOLDER'] = 'static'
 db = SQLAlchemy(app) 
 
 
