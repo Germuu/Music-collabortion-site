@@ -1,10 +1,8 @@
-
-CREATE TABLE users (                                                        CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT, password TEXT);
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    password VARCHAR(255)
+    password TEXT
 );
-
 
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
@@ -22,17 +20,17 @@ CREATE TABLE messages (
     content VARCHAR(255)
 );
 
-
 CREATE TABLE project_files (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects(id),
     audio BYTEA,
     comment TEXT,
-    file_type VARCHAR(255)  -- Adding the new column for file type
+    file_type VARCHAR(255),
+    upload_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- New timestamp column
 );
 
 CREATE TABLE group_members (
     id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups(id),
     user_id INTEGER REFERENCES users(id)
-);  
+);
