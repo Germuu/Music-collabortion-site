@@ -133,7 +133,7 @@ def create_project():
 
         db.session.commit()
         flash("Project created successfully!", "success")
-        return redirect("/dashboard")
+        return redirect(url_for("group_projects", group_id=group_id))
     else:
         return render_template("group.html")
 
