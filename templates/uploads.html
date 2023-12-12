@@ -89,53 +89,53 @@
         <div class="file-section">
             <h2>Latest Uploads</h2>
 
-            <!-- Drums Download Link -->
-            <div class="file-field">
-                <label for="latest_drums">Drums:</label>
-                {% if latest_files['drums'] %}
-                    <p class="comment">Comment: {{ latest_files['drums'].comment }}</p>
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='drums', file_id=latest_files['drums'].id) }}" class="download-link">Download</a>
-                {% else %}
-                    <p class="no-upload">No upload available</p>
-                {% endif %}
-            </div>
-
-            <!-- Bass Download Link -->
-            <div class="file-field">
-                <label for="latest_bass">Bass:</label>
-                {% if latest_files['bass'] %}
-                    <p class="comment">Comment: {{ latest_files['bass'].comment }}</p>
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='bass', file_id=latest_files['bass'].id) }}" class="download-link">Download</a>
-                {% else %}
-                    <p class="no-upload">No upload available</p>
-                {% endif %}
-            </div>
-
-            <!-- Effects Download Link -->
-            <div class="file-field">
-                <label for="latest_effects">Effects:</label>
-                {% if latest_files['effects'] %}
-                    <p class="comment">Comment: {{ latest_files['effects'].comment }}</p>
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='effects', file_id=latest_files['effects'].id) }}" class="download-link">Download</a>
-                {% else %}
-                    <p class="no-upload">No upload available</p>
-                {% endif %}
-            </div>
-
-            <!-- Custom Download Link -->
-            <div class="file-field">
-                <label for="latest_custom">Custom:</label>
-                {% if latest_files['custom'] %}
-                    <p class="comment">Comment: {{ latest_files['custom'].comment }}</p>
-                    <a href="{{ url_for('download_file', project_id=project.id, file_type='custom', file_id=latest_files['custom'].id) }}" class="download-link">Download</a>
-                {% else %}
-                    <p class="no-upload">No upload available</p>
-                {% endif %}
-            </div>
-        </div>
+    <!-- Drums Download Link -->
+    <div class="file-field">
+        <label for="latest_drums">Drums:</label>
+        {% if latest_files['drums'] %}
+            <p class="comment">Comment: {{ latest_files['drums'].comment }}</p>
+            <p class="upload-time">Last Upload: {{ latest_files['drums'].upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <a href="{{ url_for('download_file', project_id=project.id, file_type='drums', file_id=latest_files['drums'].id) }}" class="download-link">Download</a>
+        {% else %}
+            <p class="no-upload">No upload available</p>
+        {% endif %}
     </div>
-</body>
-</html>
+
+    <!-- Bass Download Link -->
+    <div class="file-field">
+        <label for="latest_bass">Bass:</label>
+        {% if latest_files['bass'] %}
+            <p class="comment">Comment: {{ latest_files['bass'].comment }}</p>
+            <p class="upload-time">Last Upload: {{ latest_files['bass'].upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <a href="{{ url_for('download_file', project_id=project.id, file_type='bass', file_id=latest_files['bass'].id) }}" class="download-link">Download</a>
+        {% else %}
+            <p class="no-upload">No upload available</p>
+        {% endif %}
+    </div>
+
+    <!-- Effects Download Link -->
+    <div class="file-field">
+        <label for="latest_effects">Effects:</label>
+        {% if latest_files['effects'] %}
+            <p class="comment">Comment: {{ latest_files['effects'].comment }}</p>
+            <p class="upload-time">Last Upload: {{ latest_files['effects'].upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <a href="{{ url_for('download_file', project_id=project.id, file_type='effects', file_id=latest_files['effects'].id) }}" class="download-link">Download</a>
+        {% else %}
+            <p class="no-upload">No upload available</p>
+        {% endif %}
+    </div>
+
+    <!-- Custom Download Link -->
+    <div class="file-field">
+        <label for="latest_custom">Custom:</label>
+        {% if latest_files['custom'] %}
+            <p class="comment">Comment: {{ latest_files['custom'].comment }}</p>
+            <p class="upload-time">Last Upload: {{ latest_files['custom'].upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <a href="{{ url_for('download_file', project_id=project.id, file_type='custom', file_id=latest_files['custom'].id) }}" class="download-link">Download</a>
+        {% else %}
+            <p class="no-upload">No upload available</p>
+        {% endif %}
+    </div>
 
 
 

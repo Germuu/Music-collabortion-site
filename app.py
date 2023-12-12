@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
 from dotenv import load_dotenv
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -216,16 +217,21 @@ def uploads(project_id):
         project_result = db.session.execute(project_sql, {"project_id": project_id})
         project = project_result.fetchone()
 
-        # Fetch latest file for each type
+        # Fetch latest file for each type, including the upload_timestamp
         file_types = ['drums', 'bass', 'effects', 'custom']
         latest_files = {}
 
         for file_type in file_types:
             latest_file_sql = text(
-                "SELECT id, file_path, comment FROM project_files WHERE project_id = :project_id AND file_type = :file_type ORDER BY id DESC LIMIT 1"
+                "SELECT id, file_path, comment, upload_timestamp FROM project_files WHERE project_id = :project_id AND file_type = :file_type ORDER BY id DESC LIMIT 1"
             )
             latest_file_result = db.session.execute(latest_file_sql, {"project_id": project_id, "file_type": file_type})
             latest_file = latest_file_result.fetchone()
+
+            # Convert the timestamp to a datetime object (assuming it's not already)
+            if latest_file and 'upload_timestamp' in latest_file:
+                latest_file['upload_timestamp'] = datetime.strptime(latest_file['upload_timestamp'], "%Y-%m-%d %H:%M:%S")
+
             latest_files[file_type] = latest_file
 
         # Render the template with the project details and latest_files
@@ -236,7 +242,7 @@ def uploads(project_id):
         return redirect(url_for('uploads', project_id=project_id))
 
     else:
-        return abort(405)  
+        return abort(405) 
 
 @app.route("/download_file/<int:file_id>")
 def download_file(file_id):
