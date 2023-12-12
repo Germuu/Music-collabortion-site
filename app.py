@@ -96,7 +96,7 @@ def createg():
         
         if existing_group:
             flash("Group with the same name already exists. Choose a different name.")
-            return redirect("/createg")  # Redirect to the createg page to try again
+            return redirect("/create_group")  # Redirect to the createg page to try again
 
         # CREATE GROUP
         sql = "INSERT INTO groups (name) VALUES (:group_name) RETURNING id"
@@ -115,20 +115,19 @@ def createg():
             db.session.execute(text(sql_collaborator).params(group_id=group_id, user_id=collaborator))
 
         db.session.commit()
-        return redirect("/group")
+        return redirect("/dashboard")
     else:
         return render_template("create_group.html")
 
-
-@app.route("/group", methods=["GET", "POST"])
+@app.route("/create_project", methods=["GET", "POST"])
 def create_project():
     if request.method == "POST":
         project_name = request.form["project_name"]
-        group_id = session.get("group_id")
+        group_id = request.form["group_id"]  # Get the group ID from the hidden field
 
         # CREATE PROJECT
-        sql = "INSERT INTO projects (name,group_id) VALUES (:project_name,:group_id) RETURNING id"
-        result = db.session.execute(text(sql).params(project_name=project_name,group_id=group_id))
+        sql = "INSERT INTO projects (name, group_id) VALUES (:project_name, :group_id) RETURNING id"
+        result = db.session.execute(text(sql).params(project_name=project_name, group_id=group_id))
         project_id = result.fetchone()[0]
 
         db.session.commit()
@@ -136,6 +135,7 @@ def create_project():
         return redirect("/")
     else:
         return render_template("group.html")
+
 
 
 @app.route("/dashboard")
@@ -164,7 +164,8 @@ def group_projects(group_id):
     result = db.session.execute(sql, {"group_id": group_id})
     projects = result.fetchall()
 
-    return render_template("group_projects.html", projects=projects)
+    return render_template("group_projects.html", projects=projects, group_id=group_id)
+
 
 
 
