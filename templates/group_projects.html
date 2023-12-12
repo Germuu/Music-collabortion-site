@@ -46,29 +46,48 @@
             padding: 0;
         }
 
+            .project-link {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 25% 0 50% 25%;
+        background-color: #28a745;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        width: 100px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .project-link a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .project-link a:hover {
+        color: #fff;
+    }
+
+    /* Add the following styles to create a flex container */
+    ul.project-list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .project-link {
+        flex: 0 0 calc(16.666% - 20px); /* 16.666% to display 6 items per row with margin */
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    /* Media query to adjust flex item width for smaller screens */
+    @media (max-width: 600px) {
         .project-link {
-            display: inline-block;
-            padding: 10px;
-            border-radius: 25% 0 50% 25%;
-            background-color: #28a745;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            width: 100px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex: 0 0 calc(50% - 20px); /* 50% to display 2 items per row with margin */
         }
-
-        .project-link a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .project-link a:hover {
-            color: #fff;
-        }
+    }
 
         form {
             margin-top: 20px;
@@ -123,13 +142,14 @@
         <!-- Display projects for the specified group with inkblot-shaped clickable links to project details -->
         <h1>Group Projects</h1>
         <h2>Projects:</h2>
-        <ul>
+        <ul class="project-list">
             {% for project in projects %}
                 <li class="project-link">
                     <a href="{{ url_for('project_details', project_id=project.id) }}">{{ project.name }}</a>
                 </li>
             {% endfor %}
         </ul>
+
 
         <h2>Create a New Project:</h2>
         <form action="{{ url_for('create_project') }}" method="post">
