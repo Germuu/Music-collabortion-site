@@ -151,6 +151,16 @@
         </ul>
 
 
+        <!-- Form to add new users to the existing group -->
+        <h2>Add Users to Group:</h2>
+        <form action="{{ url_for('add_users_to_group', group_id=group_id) }}" method="post">
+            <label for="user_ids">User IDs (comma-separated):</label>
+            <input type="text" name="user_ids" id="user_ids" required>
+            <br>
+            <input type="submit" value="Add Users">
+        </form>
+
+
         <h2>Create a New Project:</h2>
         <form action="{{ url_for('create_project') }}" method="post">
             <label for="project_name">Project Name:</label>

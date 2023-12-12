@@ -173,6 +173,32 @@ def group_projects(group_id):
     return render_template("group_projects.html", projects=projects, group_id=group_id, group_name=group_name)
 
 
+from flask import request, flash, redirect, url_for
+from sqlalchemy import text
+
+@app.route("/add_users_to_group/<int:group_id>", methods=["POST"])
+def add_users_to_group(group_id):
+    if request.method == "POST":
+        user_ids = [int(user_id.strip()) for user_id in request.form["user_ids"].split(',')]
+
+        try:
+            # Use parameterized query to prevent SQL injection
+            sql = text("INSERT INTO group_members (group_id, user_id) VALUES (:group_id, :user_id)")
+            
+            # Insert new rows into the group_members table for each user_id
+            for user_id in user_ids:
+                db.session.execute(sql, {"group_id": group_id, "user_id": user_id})
+
+            # Commit the changes to the database
+            db.session.commit()
+
+            flash("Users added successfully!", "success")
+        except Exception as e:
+            # Handle exceptions, e.g., if there's an issue with the database
+            db.session.rollback()
+            flash(f"Error adding users: {str(e)}", "error")
+
+        return redirect(url_for("group_projects", group_id=group_id))
 
 
 
