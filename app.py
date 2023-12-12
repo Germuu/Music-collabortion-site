@@ -161,11 +161,17 @@ def dashboard():
 @app.route("/group_projects/<int:group_id>")
 def group_projects(group_id):
     # Fetch projects for the specified group from the database
-    sql = text("SELECT name,id FROM projects WHERE group_id = :group_id")
-    result = db.session.execute(sql, {"group_id": group_id})
-    projects = result.fetchall()
+    project_sql = text("SELECT name, id FROM projects WHERE group_id = :group_id")
+    project_result = db.session.execute(project_sql, {"group_id": group_id})
+    projects = project_result.fetchall()
 
-    return render_template("group_projects.html", projects=projects, group_id=group_id)
+    # Fetch the name of the specified group from the database
+    group_sql = text("SELECT name FROM groups WHERE id=:group_id")
+    group_result = db.session.execute(group_sql, {"group_id": group_id})
+    group_name = group_result.fetchone()[0]  # Assuming there is only one result
+
+    return render_template("group_projects.html", projects=projects, group_id=group_id, group_name=group_name)
+
 
 
 
