@@ -24,6 +24,7 @@ The project page itself is displayed when clicked, but the file-sharing function
 - file downloading implemented
 - increased number of uploadable tracks
 - added background picture for aesthetics
+- user id is stored on index page for collaboration
 
 
 # HOW TO TEST
