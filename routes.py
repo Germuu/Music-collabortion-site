@@ -3,6 +3,7 @@ from user_utils import *
 from creation_utils import *
 from group_utils import *
 from project_utils import *
+from sqlalchemy.exc import IntegrityError
 
 from flask import render_template, request, flash, redirect, session, send_file
 
@@ -21,8 +22,8 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        register_user(username, password)
-        return redirect("/")
+    
+        return register_user(username, password)
     else:
         return render_template("registration.html")
 

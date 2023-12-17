@@ -9,16 +9,15 @@ from db import db
 
 
 def register_user(username, password):
-    # Check if user with the given name already exists
-    
-    existing_group = db.session.execute(
-        text("SELECT * FROM groups WHERE name = :group_name").params(group_name=group_name)
+    existing_user = db.session.execute(
+        text("SELECT * FROM users WHERE username = :username").params(username=username)
     ).fetchone()
-
-    if existing_group:
-        flash("Group with the same name already exists. Choose a different name.")
-        return redirect("/createg")  # Redirect to the createg page to try again   
-
+    
+    if existing_user:
+        flash("User with the same name already exists. Choose a different name.")
+        return redirect("/registration") # Redirect to the createg page to try again 
+             
+    
     hash_value = generate_password_hash(password)
     sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
     db.session.execute(text(sql).params(username=username, password=hash_value))
