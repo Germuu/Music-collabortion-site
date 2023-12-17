@@ -107,6 +107,7 @@
                     {{ file_type|capitalize }}:
                 </label>
                 <input type="file" name="{{ file_type }}" id="{{ file_type }}">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 <input type="hidden" name="file_types[]" value="{{ file_type }}">
                 <input type="hidden" name="project_id" value="{{ project.id }}">
             </div>

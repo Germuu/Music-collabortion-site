@@ -84,6 +84,7 @@
         <input type="text" id="group_name" name="group_name" required><br>
         <label for="collaborators">Collaborators (collaborator id:s) (comma-separated):</label>
         <input type="text" id="collaborators" name="collaborators" required><br>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="submit" value="Create Group">
     </form>
 </body>

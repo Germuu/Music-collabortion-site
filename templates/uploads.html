@@ -101,6 +101,7 @@
         {% if latest_files['drums'] %}
             <p class="comment">Comment: {{ latest_files['drums'].comment }}</p>
             <p class="upload-time">Last Upload: {{ latest_files['drums'].upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             <a href="{{ url_for('download_file', project_id=project.id, file_type='drums', file_id=latest_files['drums'].id) }}" class="download-link">Download</a>
         {% else %}
             <p class="no-upload">No upload available</p>
