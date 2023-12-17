@@ -18,12 +18,12 @@ The project page itself is displayed when clicked, but the file-sharing function
 
 ## Version 1.2 (final?)
 
--csrf protection added
--added possibility to insert new users into group after creation
--timestamp added to display latest upload for given file
--file downloading implemented
--increased number of uploadable tracks
--added background picture for aesthetics
+- csrf protection added
+- added possibility to insert new users into group after creation
+- timestamp added to display latest upload for given file
+- file downloading implemented
+- increased number of uploadable tracks
+- added background picture for aesthetics
 
 
 # HOW TO TEST
