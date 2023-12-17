@@ -16,6 +16,16 @@ The project page itself is displayed when clicked, but the file-sharing function
 - While uploaded files are visible on the site, they are not yet downloadable
 - secret key and URL are still hard coded
 
+## Version 1.2 (final?)
+
+-csrf protection added
+-added possibility to insert new users into group after creation
+-timestamp added to display latest upload for given file
+-file downloading implemented
+-increased number of uploadable tracks
+-added background picture for aesthetics
+
+
 # HOW TO TEST
 
 0. Download templates, requirements, schema.sql, and app.py.
