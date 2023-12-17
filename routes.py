@@ -115,6 +115,5 @@ def uploads(project_id):
 
 @app.route("/download_file/<int:file_id>")
 def download_file(file_id):
-    check_token()
     path=get_filepath(file_id)
     return send_file(path, as_attachment=True)

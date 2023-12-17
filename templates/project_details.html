@@ -100,7 +100,7 @@
         <h2>{{ project.name }}</h2>
 
         <form action="/upload_file" method="POST" enctype="multipart/form-data">
-            {% for file_type in ['drums', 'bass', 'effects', 'custom'] %}
+            {% for file_type in ['track_1', 'track_2', 'track_3', 'track_4', 'track_5', 'track_6','track_7','track_8'] %}
             <div class="file-field">
                 <label for="{{ file_type }}">
                     <span class="symbol symbol-{{ file_type }}"></span>

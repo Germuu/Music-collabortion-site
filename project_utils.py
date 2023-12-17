@@ -23,7 +23,7 @@ def uploader():
     project_id = request.form.get('project_id')
 
     # Loop through the file types and handle each file
-    for file_type in ['drums', 'bass', 'effects', 'custom']:
+    for file_type in ['track_1', 'track_2', 'track_3', 'track_4', 'track_5', 'track_6','track_7','track_8']:
         uploaded_file = request.files[file_type]
 
         if uploaded_file:
@@ -43,7 +43,7 @@ def uploader():
 
 def get_latest_files(project_id):
     # Fetch latest file for each type, including the upload_timestamp
-    file_types = ['drums', 'bass', 'effects', 'custom']
+    file_types = ['track_1', 'track_2', 'track_3', 'track_4', 'track_5', 'track_6','track_7','track_8']
     latest_files = {}
 
     for file_type in file_types:
